@@ -1,0 +1,22 @@
+// Prisma schema for Campus Compass
+// Docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model College {
+  id          Int      @id @default(autoincrement())
+  name        String
+  location    String
+  fees        String
+  rating      Float
+  courses     String   // comma-separated for simplicity, e.g. "B.Tech,MBA,MCA"
+  placements  String?  // e.g. "Average Package ₹6 LPA"
+  createdAt   DateTime @default(now())
+}

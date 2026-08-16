@@ -1,9 +1,13 @@
-export default function ComparePage() {
+import { prisma } from "@/lib/prisma";
+
+export default async function ComparePage() {
+  const colleges = await prisma.college.findMany({
+    orderBy: { id: "asc" },
+  });
+
   return (
     <div className="min-h-screen p-8">
-      <h1 className="text-4xl font-bold mb-8">
-        Compare Colleges
-      </h1>
+      <h1 className="text-4xl font-bold mb-8">Compare Colleges</h1>
 
       <table className="border-collapse border border-gray-400 w-full">
         <thead>
@@ -16,19 +20,14 @@ export default function ComparePage() {
         </thead>
 
         <tbody>
-          <tr>
-            <td className="border p-3">GL Bajaj</td>
-            <td className="border p-3">₹1.5 Lakh</td>
-            <td className="border p-3">4.5</td>
-            <td className="border p-3">Greater Noida</td>
-          </tr>
-
-          <tr>
-            <td className="border p-3">United College</td>
-            <td className="border p-3">₹1.2 Lakh</td>
-            <td className="border p-3">4.1</td>
-            <td className="border p-3">Prayagraj</td>
-          </tr>
+          {colleges.map((college) => (
+            <tr key={college.id}>
+              <td className="border p-3">{college.name}</td>
+              <td className="border p-3">{college.fees}</td>
+              <td className="border p-3">{college.rating}</td>
+              <td className="border p-3">{college.location}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
